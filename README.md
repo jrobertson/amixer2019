@@ -3,16 +3,16 @@
 ## Usage
 
     amixer = AMixer2019.new
-    amixer.volume
-
-    sleep 3
-
-    # increase the volume by 5% if volume is less than 96%
-    amixer.vol_down
+    amixer.volume #=> 79
 
     sleep 3
 
     # decrease the volume by 5% if volume is greater than 4%
+    amixer.vol_down
+
+    sleep 3
+
+    # increase the volume by 5% if volume is less than 96%
     amixer.vol_up
 
     amixer.mute
