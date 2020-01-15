@@ -6,8 +6,9 @@
 
 class AMixer2019
 
-  def initialize(notch: 5, fade_interval: 0.15)
+  def initialize(notch: 5, fade_interval: 0.15, debug: false)
 
+    @debug = debug
     @notch, @fade_interval = notch, fade_interval
     @control = `amixer scontrols`[/(?<=')[^']+/]
     query(`amixer get '#{@control}'`)
@@ -60,11 +61,11 @@ class AMixer2019
 
   def query(r)
 
-    h = r.match(/(?<volume>\d+)%\] \[(?<toggle>on|off)\]/)
+    puts 'r: ' + r.inspect if @debug
+    h = r.match(/(?<volume>\d+)%\] .*\[(?<toggle>on|off)\]/)
     @volume = h[:volume].to_i
     @muted = h[:toggle] == 'off'
 
   end
 
 end
-
