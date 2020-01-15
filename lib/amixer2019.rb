@@ -8,15 +8,15 @@ class AMixer2019
 
   def initialize(notch: 5, fade_interval: 0.15, debug: false)
 
-    @debug = debug
-    @notch, @fade_interval = notch, fade_interval
+    @notch, @fade_interval, @debug = notch, fade_interval, debug
     @control = `amixer scontrols`[/(?<=')[^']+/]
     query(`amixer get '#{@control}'`)
 
   end
+  
 
   # fades the volume up or down to the volume percentage
-
+  #
   def fade(raw_val, interval: @fade_interval)
 
     val = raw_val.to_i
@@ -28,10 +28,11 @@ class AMixer2019
 
     @volume
 
-  end
+  end  
 
   def mute()        sset 'mute'      end
   def muted?()      @muted           end
+  def toggle()      sset 'toggle'    end
   def unmute()      sset 'unmute'    end
   def vol_down()    setvol(-@notch)  end
   def vol_up()      setvol(+@notch)  end
@@ -44,7 +45,7 @@ class AMixer2019
   private
 
   def sset(switch)
-    query(`amixer sset '#{@control}' #{switch}`)
+    query(`amixer sset #{@control} #{switch}`)
   end
 
   def setvol(val)
@@ -68,4 +69,18 @@ class AMixer2019
 
   end
 
+end
+
+class AMixerCapture2019 < AMixer2019
+  
+  def initialize(notch: 5, fade_interval: 0.15, debug: false)
+
+    @notch, @fade_interval, @debug = notch, fade_interval, debug
+    
+    # the microphone can sometimes be on a different card which we check here
+    @control = 'Mic -c ' + (`amixer scontrols`[/'Capture'/] ? 0 : 1).to_s
+    query(`amixer get #{@control}`)
+
+  end
+  
 end

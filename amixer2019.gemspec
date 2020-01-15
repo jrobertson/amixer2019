@@ -1,7 +1,8 @@
 Gem::Specification.new do |s|
   s.name = 'amixer2019'
-  s.version = '0.1.1'
-  s.summary = 'A wrapper around the command-line program amixer. #amixer #alsamixer #raspberrypi'
+  s.version = '0.2.0'
+  s.summary = 'A wrapper around the command-line program amixer. ' +
+      '#amixer #alsamixer #raspberrypi'
   s.authors = ['James Robertson']
   s.files = Dir['lib/amixer2019.rb']
   s.signing_key = '../privatekeys/amixer2019.pem'
